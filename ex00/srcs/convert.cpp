@@ -6,7 +6,7 @@
 /*   By: mriant <mriant@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 10:01:22 by mriant            #+#    #+#             */
-/*   Updated: 2023/01/12 16:00:16 by mriant           ###   ########.fr       */
+/*   Updated: 2023/01/12 16:19:23 by mriant           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void printFloat(double d)
 	float f;
 	float intPart;
 
-	if (d < FLT_MIN || d > FLT_MAX)
+	if (static_cast<float>(d) == -INFINITY || d > FLT_MAX)
 	{
 		std::cout << "float: impossible" << std::endl;
 		return ;
