@@ -6,14 +6,15 @@
 #    By: mriant <mriant@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:22:48 by mriant            #+#    #+#              #
-#    Updated: 2023/01/12 11:34:19 by mriant           ###   ########.fr        #
+#    Updated: 2023/01/12 15:38:32 by mriant           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = convert
 
 SRCS = ${addprefix srcs/, \
-		 convert.cpp}
+		 convert.cpp \
+		 parsing.cpp}
 
 OBJS = ${SRCS:srcs/%.cpp=build/%.o}
 DEPS = ${SRCS:srcs/%.cpp=build/%.d}

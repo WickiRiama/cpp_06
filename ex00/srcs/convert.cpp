@@ -6,32 +6,80 @@
 /*   By: mriant <mriant@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 10:01:22 by mriant            #+#    #+#             */
-/*   Updated: 2023/01/12 11:40:23 by mriant           ###   ########.fr       */
+/*   Updated: 2023/01/12 16:00:16 by mriant           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string>
 #include <iostream>
-#include <fstream>
+#include <limits.h>
+#include <float.h>
+#include <ctype.h>
+#include <math.h>
 
-void parsing(std::string s, char *c, double *d, float *f, int *i)
+#include "convert.h"
+
+void printChar(double d)
 {
-	(void)f;
-	(void)i;
+	char c;
 
-	if (s.size() == 1 && !isdigit(s[0]))
+	if (d < SCHAR_MIN || d > SCHAR_MAX)
 	{
-		*c = s[0];
-		*d = static_cast<double>(*c);
+		std::cout << "char: impossible" << std::endl;
+		return ;
 	}
+	c = static_cast<char>(d);
+	if (!isprint(c))
+		std::cout << "char: non displayable" << std::endl;
+	else
+		std::cout << "char: " << c << std::endl;
+}
+
+void printInt(double d)
+{
+	int i;
+
+	if (d < INT_MIN || d > INT_MAX)
+	{
+		std::cout << "int: impossible" << std::endl;
+		return ;
+	}
+	i = static_cast<int>(d);
+	std::cout << "int: " << i << std::endl;
+
+}
+
+void printFloat(double d)
+{
+	float f;
+	float intPart;
+
+	if (d < FLT_MIN || d > FLT_MAX)
+	{
+		std::cout << "float: impossible" << std::endl;
+		return ;
+	}
+	f = static_cast<float>(d);
+	std::cout << "float: " << f;
+	modff(f, &intPart);
+	if (intPart == f)
+		std::cout << ".0";
+	std::cout << "f" << std::endl;
+}
+
+void printDouble(double d)
+{
+	double intPart;
+
+	modf(d, &intPart);
+	std::cout << "double: " << d;
+	if (d == intPart)
+		std::cout << ".0";
+	std::cout << std::endl;
 }
 
 int main(int ac, char **av)
 {
-	char c;
 	double d;
-	float f;
-	int i;
 
 	if (ac != 2)
 	{
@@ -39,6 +87,10 @@ int main(int ac, char **av)
 		return 1;
 	}
 	std::string s(av[1]);
-	parsing(s, &c, &d, &f, &i);
-	std::cout << "c: " << c << " d: " << d << std::endl;
+	if (parsing(s, &d))
+		return 1;
+	printChar(d);
+	printInt(d);
+	printFloat(d);
+	printDouble(d);
 }
