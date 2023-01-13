@@ -6,7 +6,7 @@
 /*   By: mriant <mriant@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 10:01:22 by mriant            #+#    #+#             */
-/*   Updated: 2023/01/12 16:19:23 by mriant           ###   ########.fr       */
+/*   Updated: 2023/01/13 13:58:43 by mriant           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void printChar(double d)
 {
 	char c;
 
-	if (d < SCHAR_MIN || d > SCHAR_MAX)
+	if (d == -INFINITY || d == +INFINITY || isnan(d) || d < SCHAR_MIN || d > SCHAR_MAX)
 	{
 		std::cout << "char: impossible" << std::endl;
-		return ;
+		return;
 	}
 	c = static_cast<char>(d);
 	if (!isprint(c))
@@ -38,14 +38,13 @@ void printInt(double d)
 {
 	int i;
 
-	if (d < INT_MIN || d > INT_MAX)
+	if (d == -INFINITY || d == +INFINITY || isnan(d) || d < INT_MIN || d > INT_MAX)
 	{
 		std::cout << "int: impossible" << std::endl;
-		return ;
+		return;
 	}
 	i = static_cast<int>(d);
 	std::cout << "int: " << i << std::endl;
-
 }
 
 void printFloat(double d)
@@ -53,10 +52,16 @@ void printFloat(double d)
 	float f;
 	float intPart;
 
+	if (d == -INFINITY || d == +INFINITY || isnan(d))
+	{
+		f = static_cast<float>(d);
+		std::cout << "float: " << f << "f" << std::endl;
+		return ;
+	}
 	if (static_cast<float>(d) == -INFINITY || d > FLT_MAX)
 	{
 		std::cout << "float: impossible" << std::endl;
-		return ;
+		return;
 	}
 	f = static_cast<float>(d);
 	std::cout << "float: " << f;
@@ -70,6 +75,11 @@ void printDouble(double d)
 {
 	double intPart;
 
+	if (d == -INFINITY || d == +INFINITY || isnan(d))
+	{
+		std::cout << "double: " << d << std::endl;
+		return ;
+	}
 	modf(d, &intPart);
 	std::cout << "double: " << d;
 	if (d == intPart)

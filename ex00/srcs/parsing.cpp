@@ -6,7 +6,7 @@
 /*   By: mriant <mriant@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:29:13 by mriant            #+#    #+#             */
-/*   Updated: 2023/01/12 17:13:40 by mriant           ###   ########.fr       */
+/*   Updated: 2023/01/13 13:57:58 by mriant           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 int parseInt(std::string const &s, double *d)
 {
 	std::stringstream ss(s);
-	int i;
+	int n;
 
-	if (ss >> i)
+	if (ss >> n)
 	{
-		*d = static_cast<double>(i);
+		*d = static_cast<double>(n);
 		return 0;
 	}
 	std::cerr << "Invalid input" << std::endl;
@@ -35,10 +35,16 @@ int parseFloat(std::string const &s, double *d)
 {
 	std::stringstream ss(s);
 	float f;
-	
+
+	if (s == "+inff" || s == "-inff" || s == "nanf")
+	{
+		f = static_cast<float>(atof(s.c_str()));
+		*d = static_cast<double>(f);
+		return 0;
+	}
 	if (ss >> f)
 	{
-		*d = static_cast<float>(f);
+		*d = static_cast<double>(f);
 		return 0;
 	}
 	std::cerr << "Invalid input" << std::endl;
@@ -49,7 +55,7 @@ int parseDouble(std::string const &s, double *d)
 {
 	std::stringstream ss(s);
 
-	if (s == "+inf")
+	if (s == "+inf" || s == "-inf" || s == "nan")
 	{
 		*d = atof(s.c_str());
 		return 0;
@@ -60,14 +66,19 @@ int parseDouble(std::string const &s, double *d)
 	return 1;
 }
 
-int parsing(std::string const s, double *d)
+int parsing(std::string const &s, double *d)
 {
 	size_t i = 0;
 	std::stringstream ss(s);
 
-	if (s == "+inf")
+	if (s == "-inf" || s == "+inf" || s == "nan")
 	{
 		parseDouble(s, d);
+		return 0;
+	}
+	if (s == "-inff" || s == "+inff" || s == "nanf")
+	{
+		parseFloat(s, d);
 		return 0;
 	}
 	if (s.size() != 0 && s[0] == '-')
