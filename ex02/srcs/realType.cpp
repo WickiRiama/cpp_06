@@ -6,7 +6,7 @@
 /*   By: mriant <mriant@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 17:08:59 by mriant            #+#    #+#             */
-/*   Updated: 2023/01/13 17:43:46 by mriant           ###   ########.fr       */
+/*   Updated: 2023/01/16 12:44:23 by mriant           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,11 @@ void identify(Base& p)
 int main(void)
 {
 	srand(time(NULL));
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		Base *base = generate();
+		if (!base)
+			return 1;
 		identify(base);
 		identify(*base);
 		delete base;
