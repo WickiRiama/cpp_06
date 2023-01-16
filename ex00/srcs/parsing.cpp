@@ -6,7 +6,7 @@
 /*   By: mriant <mriant@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:29:13 by mriant            #+#    #+#             */
-/*   Updated: 2023/01/13 13:57:58 by mriant           ###   ########.fr       */
+/*   Updated: 2023/01/16 12:37:02 by mriant           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int parseDouble(std::string const &s, double *d)
 	return 1;
 }
 
-int parsing(std::string const &s, double *d)
+int parsing(std::string const &s, double *d, int *precision)
 {
 	size_t i = 0;
 	std::stringstream ss(s);
@@ -104,7 +104,10 @@ int parsing(std::string const &s, double *d)
 	}
 	i++;
 	while (i < s.size() && isdigit(s[i]))
+	{
 		i++;
+		(*precision)++;
+	}
 	if (i == s.size())
 	{
 		if (parseDouble(s, d))

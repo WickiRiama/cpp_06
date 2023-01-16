@@ -6,7 +6,7 @@
 /*   By: mriant <mriant@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 10:01:22 by mriant            #+#    #+#             */
-/*   Updated: 2023/01/13 13:58:43 by mriant           ###   ########.fr       */
+/*   Updated: 2023/01/16 12:40:13 by mriant           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,15 @@ void printInt(double d)
 	std::cout << "int: " << i << std::endl;
 }
 
-void printFloat(double d)
+void printFloat(double d, int const &precision)
 {
 	float f;
-	float intPart;
 
 	if (d == -INFINITY || d == +INFINITY || isnan(d))
 	{
 		f = static_cast<float>(d);
 		std::cout << "float: " << f << "f" << std::endl;
-		return ;
+		return;
 	}
 	if (static_cast<float>(d) == -INFINITY || d > FLT_MAX)
 	{
@@ -64,32 +63,31 @@ void printFloat(double d)
 		return;
 	}
 	f = static_cast<float>(d);
+	std::cout << std::fixed;
+	std::cout.precision(precision);
 	std::cout << "float: " << f;
-	modff(f, &intPart);
-	if (intPart == f)
-		std::cout << ".0";
 	std::cout << "f" << std::endl;
+	std::cout.unsetf(std::ios_base::floatfield);
 }
 
-void printDouble(double d)
+void printDouble(double d, int const &precision)
 {
-	double intPart;
-
 	if (d == -INFINITY || d == +INFINITY || isnan(d))
 	{
-		std::cout << "double: " << d << std::endl;
-		return ;
+		std::cout << std::fixed << "double: " << d << std::endl;
+		return;
 	}
-	modf(d, &intPart);
+	std::cout << std::fixed;
+	std::cout.precision(precision);
 	std::cout << "double: " << d;
-	if (d == intPart)
-		std::cout << ".0";
 	std::cout << std::endl;
+	std::cout.unsetf(std::ios_base::floatfield);
 }
 
 int main(int ac, char **av)
 {
 	double d;
+	int precision = 0;
 
 	if (ac != 2)
 	{
@@ -97,10 +95,12 @@ int main(int ac, char **av)
 		return 1;
 	}
 	std::string s(av[1]);
-	if (parsing(s, &d))
+	if (parsing(s, &d, &precision))
 		return 1;
+	if (precision == 0)
+		precision = 1;
 	printChar(d);
 	printInt(d);
-	printFloat(d);
-	printDouble(d);
+	printFloat(d, precision);
+	printDouble(d, precision);
 }
